@@ -1,0 +1,87 @@
+---
+title: "Final Project Preliminary EDA"
+output: html_notebook
+---
+```{r}
+library(tidyverse)
+```
+###Guiding Question (i.e., Research Question): Make a clear statement of a single guiding/research question that will drive your analysis.  It should be phrased as a question that you will try to investigate (i.e., it should have a question mark) 
+
+###Become acquainted with your data sources:
+
+##Where did you find them?
+I find Coronavirus (COVID-19) cases data from the www.data.world.com which is a data resource website. 
+
+##Who collected/maintains them?
+Coronavirus (COVID-19) cases data were collected by WHO(World health organization) and US CDC and local government. Coronavirus (COVID-19) cases maintained by Johns Hopkins, cleaned and organized by Tableau Inc.
+
+##When & Why were they originally collected?
+Coronavirus case data is very important to help the US government formulate epidemic prevention policies. In addition, people need data on the this dangerous time to avoid possible infection risks. And the data were updated every day. So, I will track Coronavirus case date everyday.
+
+##What does a case represent in each data source, and how many total cases are available?
+```{r}
+f = file.choose("COVID-19.csv")
+d <- read.csv(f)
+```
+
+```{r}
+d%>%
+  head(10)
+
+d%>%
+  nrow()
+```
+Each case in this table represent growth of coronavirus in each country in each day which was tested postive for Coronavirus or decleared death because of Coronavirus. And there are 518740 case available today.
+
+##What are some of the variables that you plan to use?
+I want to use the time variable to track the epidemic development. And, I want to use the country and province variable to track the spread of Coronavirus in US.
+```{r}
+d%>%
+  ncol()
+d%>%
+  select(Date, Country_Region, Province_State)
+```
+
+
+
+###Explore intuition related to the research question
+
+##Create some informative plots and summary statistics 
+I draw the graph that use line to show the confirmed case in every day.
+```{r}
+china_confirmaed <- d%>%
+  filter(Country_Region == "China", Case_Type == "Confirmed")
+china_confirmaed%>%
+  ggplot(aes(x= Date, y = Cases))+
+  geom_line()
+```
+##Describe preliminary observations and intuition about the research question
+I think this data is very detailed and special, because this data table is tidy enough, I don't even need to clean the data. In addition, the data in this data table is easy to classify according to different countries and regions, which makes it easy for me to track the virus spread in a certain country or region.
+
+TWO Data Sources (at least)
+##Primary data:  This is the main data source to be used in your investigation and it MUST NOT be loaded directly from an R package (but API's are fine for example). You should have many cases (e.g., at least hundreds--preferably many thousands), many variables including a mixture of both categorical & quantitative variables.
+
+
+##Other data sources: No problem for these to come from an R package--for example, the ZipGeography or ZipDemography data (from DataComputing package) might be useful when joined with primary sources as you investigate some phenomenon in the US. 
+
+My second data resource is the table that include case name for each county in Pennsylvaina. This data table was collected by health department in pennsylvania and updated everyday. This data table include 3 variables and 67 case which represent each county in pennsylvaina. 
+
+
+
+```{r}
+
+web_page <- "https://en.wikipedia.org/wiki/2020_coronavirus_pandemic_in_Pennsylvania"
+scraw_table <- web_page %>%
+  read_html() %>%
+  html_nodes(css = "table") %>%
+  html_table(fill = TRUE)
+scraw_table
+```
+
+
+```{r}
+
+```
+```{r}
+
+```
